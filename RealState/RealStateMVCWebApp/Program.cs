@@ -30,7 +30,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=LogIn}/{id?}");
+    pattern: "{controller=Account}/{action=DualSign}/{id?}");
 //pattern: "{controller=Account}/{action=LogIn}/{id?}");
 //pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
