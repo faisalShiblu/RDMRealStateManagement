@@ -8,7 +8,18 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
+    <PackageReference Include="FluentValidation" Version="11.6.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
+    <PackageReference Include="MailKit" Version="4.1.0" />
+    <PackageReference Include="MediatR" Version="12.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+    <PackageReference Include="MimeKit" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Account\" />
+    <Folder Include="Handler\Account\" />
   </ItemGroup>
 
 </Project>

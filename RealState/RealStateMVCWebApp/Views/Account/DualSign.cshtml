@@ -684,9 +684,9 @@
                                     Already have an account?
                                     <a href="#" class="text-heading hover-primary"><u>Log in</u></a>
                                 </p>
-                                <form class="form" method="post" asp-action="DualSign" asp-controller="Account" asp-route-condition="login"
+                                <form class="form" method="post" asp-action="DualSign" asp-controller="Account" asp-route-q="login"
                                       asp-route-returnUrl="@ViewBag.ReturnUrl">
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <div class="form-group mb-4">
                                         <label asp-for="LogInEmail" class="text-heading"></label>
                                         <input asp-for="LogInEmail" class="form-control form-control-lg border-0" placeholder="Email" />
@@ -776,7 +776,7 @@
                                     <a href="#" class="text-heading hover-primary"><u>Sign up for free</u></a>
                                 </p>
                                 <form class="form" method="post" asp-action="DualSign" asp-controller="Account"
-                                      asp-route-condition="signup" asp-route-returnUrl="@ViewBag.ReturnUrl">
+                                      asp-route-q="signup" asp-route-returnUrl="@ViewBag.ReturnUrl">
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <div class="form-row mx-n2">
                                         <div class="col-sm-12 px-2">

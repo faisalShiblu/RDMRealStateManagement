@@ -1,4 +1,7 @@
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using RealStateMVCWebApp.Models;
+using RealStateMVCWebApp.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +9,14 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
                 (MongoDBConnection.ConnectionString, MongoDBConnection.DBName);
 
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<User>, UserValidator>();
 
 
 
@@ -26,7 +35,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
