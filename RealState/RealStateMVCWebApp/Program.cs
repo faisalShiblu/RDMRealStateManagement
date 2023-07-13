@@ -2,6 +2,9 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using RealStateMVCWebApp.Models;
 using RealStateMVCWebApp.Service;
+using MongoDB.Driver;
+using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,15 +12,25 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
                 (MongoDBConnection.ConnectionString, MongoDBConnection.DBName);
 
+builder.Services.AddSingleton<IMongoClient>(provider =>
+{
+    return new MongoClient(MongoDBConnection.ConnectionString);
+});
+
+
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
+
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<User>, UserValidator>();
 
+builder.Services.AddScoped<PropertyService>();
 
 
 var app = builder.Build();
@@ -42,7 +55,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=DualSign}/{id?}");
-//pattern: "{controller=Account}/{action=LogIn}/{id?}");
+//pattern: "{controller=PropertyListing}/{action=Create}/{id?}");
 //pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();

@@ -21,6 +21,7 @@ namespace RealStateMVCWebApp.Controllers
         private RoleManager<ApplicationRole> _roleManager;
         private SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
+
         public AccountController(IValidator<User> userValidator, UserManager<ApplicationUser> userManager,
                         RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager,
                         IEmailService emailService)
@@ -129,6 +130,7 @@ namespace RealStateMVCWebApp.Controllers
                         await _userManager.UpdateAsync(current_user);
 
                         var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = appUser.Id, token = emailToken }, Request.Scheme);
+
                         await _emailService.SendEmailAsync(appUser.Email, "Confirm your email", $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>.");
 
                         return RedirectToAction("Index", "Home");
@@ -165,6 +167,9 @@ namespace RealStateMVCWebApp.Controllers
 
             if (user.EmailVarifyToken == token)
             {
+                user.EmailConfirmed = true;
+                await _userManager.UpdateAsync(user);
+
                 return RedirectToAction("Dashboard", "Home", new { msg = "varified" });
             }
             else

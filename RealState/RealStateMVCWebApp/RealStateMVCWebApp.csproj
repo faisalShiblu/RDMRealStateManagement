@@ -15,11 +15,7 @@
     <PackageReference Include="MediatR" Version="12.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
     <PackageReference Include="MimeKit" Version="4.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\Account\" />
-    <Folder Include="Handler\Account\" />
+    <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
   </ItemGroup>
 
 </Project>
