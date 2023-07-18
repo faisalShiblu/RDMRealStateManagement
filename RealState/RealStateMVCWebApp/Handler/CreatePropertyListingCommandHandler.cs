@@ -61,7 +61,8 @@ namespace RealStateMVCWebApp.Handler
                 VideoURLOne = request.VideoURLOne,
                 VideoURLTwo = request.VideoURLTwo,
                 YearBuilt = request.YearBuilt,
-                YearlyTaxRate = request.YearlyTaxRate
+                YearlyTaxRate = request.YearlyTaxRate,
+                Id = Guid.NewGuid().ToString()
             };
 
             var createdPropertyListing = await _propertyRepository.Create(listing);

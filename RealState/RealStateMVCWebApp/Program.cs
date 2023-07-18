@@ -5,6 +5,7 @@ using RealStateMVCWebApp.Service;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
+using RealStateMVCWebApp.DTO.PropertyListing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.G
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<User>, UserValidator>();
+builder.Services.AddScoped<IValidator<CreatePropertyListingDTO>, CreatePropertyListingValidator>();
+builder.Services.AddScoped<IValidator<EditPropertyListingDTO>, EditPropertyListingDTOValidator>();
 
 builder.Services.AddScoped<PropertyService>();
 
@@ -54,8 +57,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=DualSign}/{id?}");
-//pattern: "{controller=PropertyListing}/{action=Create}/{id?}");
+    //pattern: "{controller=Account}/{action=DualSign}/{id?}");
+pattern: "{controller=PropertyListing}/{action=Index}/{id?}");
 //pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();

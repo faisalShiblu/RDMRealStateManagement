@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using RealStateMVCWebApp.Models;
 using RealStateMVCWebApp.Models.Entities;
 
@@ -21,7 +22,7 @@ namespace RealStateMVCWebApp.Service
 
         public async Task<PropertyListing> Get(string id)
         {
-            return await _collection.Find(p => p.Id == id).FirstOrDefaultAsync();
+            return await _collection.Find(p => p.Id.ToString() == id).FirstOrDefaultAsync();
         }
 
         public async Task<PropertyListing> Create(PropertyListing listing)
@@ -32,15 +33,23 @@ namespace RealStateMVCWebApp.Service
 
         public async Task<PropertyListing> Update(PropertyListing listing)
         {
-            await _collection.ReplaceOneAsync(p => p.Id == listing.Id, listing);
-            return listing;
+            try
+            {
+                await _collection.ReplaceOneAsync(p => p.Id == listing.Id.Trim(), listing);
+                return listing;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public async Task Delete(string id)
         {
             var update = Builders<PropertyListing>.Update.Set(s => s.IsDeleted, true);
-            await _collection.UpdateOneAsync(p => p.Id == id, update);
-            
+            await _collection.UpdateOneAsync(p => p.Id == id.Trim(), update);
+
         }
 
     }

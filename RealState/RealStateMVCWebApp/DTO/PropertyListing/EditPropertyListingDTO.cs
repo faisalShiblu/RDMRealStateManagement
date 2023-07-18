@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RealStateMVCWebApp.DTO.PropertyListing
 {
-    public class CreatePropertyListingDTO
+    public class EditPropertyListingDTO
     {
+        public string Id { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
@@ -63,10 +64,11 @@ namespace RealStateMVCWebApp.DTO.PropertyListing
     }
 
 
-    public class CreatePropertyListingValidator : AbstractValidator<CreatePropertyListingDTO>
+    public class EditPropertyListingDTOValidator : AbstractValidator<EditPropertyListingDTO>
     {
-        public CreatePropertyListingValidator()
+        public EditPropertyListingDTOValidator()
         {
+            RuleFor(x => x.Id).NotNull().NotEmpty();
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
             RuleFor(x => x.Price).NotEmpty().WithMessage("Price is required.");
             RuleFor(x => x.Size).NotEmpty().WithMessage("Size is required.");

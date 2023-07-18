@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.PropertyType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.Address.DetailedAddress)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -51,14 +51,18 @@
                     @Html.DisplayFor(modelItem => item.PropertyType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Address)
+                    @Html.DisplayFor(modelItem => item.Address.DetailedAddress)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id  }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return showConfirmation();" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<script>
+    function showConfirmation() {
+        return window.confirm("Are you sure you want to delete this item?");
+    }
+</script>

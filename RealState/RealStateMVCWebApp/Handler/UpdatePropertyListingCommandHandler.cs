@@ -16,7 +16,53 @@ namespace RealStateMVCWebApp.Handler
 
         public async Task<PropertyListing> Handle(UpdatePropertyListingCommand request, CancellationToken cancellationToken)
         {
-            var updatedPropertyListing = await _propertyRepository.Update(request.PropertyListing);
+            var listing = new PropertyListing()
+            {
+                AddedBy = request.AddedBy,
+                Address = request.Address,
+                AddTimeStamp = DateTime.Now,
+                AfterPriceLabel = request.AfterPriceLabel,
+                Amenities = request.Amenities,
+                Availability = request.Availability,
+                Basement = request.Basement,
+                BathRooms = request.BathRooms,
+                BedRooms = request.BedRooms,
+                BeforePriceLabel = request.BeforePriceLabel,
+                Category = request.Category,
+                CustomID = request.CustomID,
+                Description = request.Description,
+                EnergyClass = request.EnergyClass,
+                EnergyIndex = request.EnergyIndex,
+                ExteriorMaterial = request.ExteriorMaterial,
+                ExtraDetails = request.ExtraDetails,
+                FloorsNo = request.FloorsNo,
+                Garages = request.Garages,
+                GarageSize = request.GarageSize,
+                HomeOwnersAssociationFee = request.HomeOwnersAssociationFee,
+                Images = request.Images,
+                IsDeleted = false,
+                LotSize = request.LotSize,
+                OwnerAgentNots = request.OwnerAgentNots,
+                Price = request.Price,
+                PropertyCreatorId = request.PropertyCreatorId,
+                PropertyReviews = null,
+                PropertyStatus = request.PropertyStatus,
+                PropertyType = request.PropertyType,
+                Roofing = request.Roofing,
+                Rooms = request.Rooms,
+                Size = request.Size,
+                StructureType = request.StructureType,
+                Tags = request.Tags,
+                Title = request.Title,
+                UpdatedBy = request.UpdatedBy,
+                UpdateTimeStamp = DateTime.Now,
+                VideoURLOne = request.VideoURLOne,
+                VideoURLTwo = request.VideoURLTwo,
+                YearBuilt = request.YearBuilt,
+                YearlyTaxRate = request.YearlyTaxRate,
+                Id = request.Id
+            };
+            var updatedPropertyListing = await _propertyRepository.Update(listing);
             return updatedPropertyListing;
         }
     }
