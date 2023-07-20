@@ -26,7 +26,6 @@
         }, reInitWhenTabShow: function () {
             var $tabs = $('a[data-toggle="pill"],a[data-toggle="tab"]'); $tabs.on('show.bs.tab', function (e) {
                 var href = $(this).attr('href'); if (href !== '#') { $($(this).attr('href')).find('.slick-slider').slick('refresh'); $('[data-toggle="tooltip"]').tooltip('update'); if ($(e.target).attr("href") !== undefined) { var $target = $($(e.target).attr("href")); APP.util.mfpEvent($target); } }
-                APP.mapbox.init();
             });
         }, processingStepAddProperty: function () {
             var $step = $('.new-property-step'); if ($step.length < 1) { return; }
@@ -155,14 +154,6 @@
             var header_sticky_height = 0; if ($('#site-header.header-sticky').length > 0) { header_sticky_height = 60; }
             $('.primary-sidebar.sidebar-sticky > .primary-sidebar-inner').hcSticky({ stickTo: '#sidebar', top: header_sticky_height + 30 }); $('.primary-map.map-sticky > .primary-map-inner').hcSticky({ stickTo: '#map-sticky', top: header_sticky_height });
         }
-    }; APP.mapbox = {
-        init: function () {
-            var $map_box = $('.mapbox-gl'); if ($map_box.length < 1) { return; }
-            var options_default = { container: 'map', style: 'mapbox://styles/mapbox/light-v10', center: [-73.9927227, 40.6734035], zoom: 16 }; $map_box.each(function () {
-                var $this = $(this), options = $this.data('mapbox-options'), markers = $this.data('mapbox-marker'); options = $.extend({}, options_default, options); mapboxgl.accessToken = $this.data('mapbox-access-token'); var map = new mapboxgl.Map(options); var $marker_el = $($this.data('marker-target')); var $marker_els = $marker_el.find('.marker-item'); if ($marker_els.length > 0) { $.each($marker_els, function () { var $marker_style = $(this).data('marker-style'); var el = document.createElement('div'); el.className = $marker_style.className; el.style.backgroundImage = 'url(' + $(this).data('icon-marker') + ')'; el.style.width = $marker_style.style.width; el.style.height = $marker_style.style.height; new mapboxgl.Marker(el).setLngLat($(this).data('position')).setPopup(new mapboxgl.Popup({ className: $marker_style.popup.className }).setHTML($(this).html()).setMaxWidth($marker_style.popup.maxWidth)).addTo(map); }); } else { $.each(markers, function () { var el = document.createElement('div'); el.className = this.className; el.style.backgroundImage = 'url(' + this.backgroundImage + ')'; el.style.backgroundRepeat = this.backgroundRepeat; el.style.width = this.width; el.style.height = this.height; var marker = new mapboxgl.Marker(el).setLngLat(this.position).addTo(map); }) }
-                map.scrollZoom.disable(); map.addControl(new mapboxgl.NavigationControl()); map.on('load', function () { map.resize(); });
-            });
-        }
     }; APP.invoice = {
         init: function () { this.checkAllListing(); this.addItem(); this.deleteItem(); this.currencySelect(); this.taxSelect(); this.discountSelect(); this.printInvoice(); this.sortingInvoice(); }, checkAllListing: function () {
             var $parent_check = $('.chk-parent'); if ($parent_check.length < 1) { return; }
@@ -232,5 +223,5 @@
             var $discount_select = $('.invoice-discount-select'); if ($discount_select.length < 1) { return; }
             var $dropdown_toggle = $discount_select.find('.dropdown-toggle'); var $toggle_text = $dropdown_toggle.find('.selectable-text'); var $items = $discount_select.find('.dropdown-item'); $items.each(function () { $(this).on('click', function (e) { e.preventDefault(); var $self = $(this); $toggle_text.text($self.text()); $('input[name=discount-rate]').attr('value', $self.data('value')); if ($self.data('value') !== 0) { $('.discount-amount').css('display', 'block'); } else { $('.discount-amount').css('display', 'none'); } }) });
         }, printInvoice: function () { $('.invoice-action-print').on('click', function () { window.print(); }); }, sortingInvoice: function () { var $table = $('#invoice-list'); $table.DataTable({ "order": [], "paging": false, "searching": false, "info": false, "columnDefs": [{ "orderable": false, "targets": 0 }, { "targets": 'no-sort', "orderable": false }] }); }
-    }; $(document).ready(function () { APP.init(); APP.slickSlider.init(); APP.counter.init(); APP.util.init(); APP.chatjs.init(); APP.uploader.init(); APP.CollapseTabsAccordion.init(); APP.animation.init(); APP.PropertySearchStatusTab.init(); APP.ShowCompare.init(); APP.headerSticky.init(); APP.sidebarSticky.init(); APP.mapbox.init(); APP.invoice.init(); });
+    }; $(document).ready(function () { APP.init(); APP.slickSlider.init(); APP.counter.init(); APP.util.init(); APP.chatjs.init(); APP.uploader.init(); APP.CollapseTabsAccordion.init(); APP.animation.init(); APP.PropertySearchStatusTab.init(); APP.ShowCompare.init(); APP.headerSticky.init(); APP.sidebarSticky.init();  APP.invoice.init(); });
 })(jQuery);

@@ -71,7 +71,7 @@ namespace RealStateMVCWebApp.DTO.PropertyListing
             RuleFor(x => x.Price).NotEmpty().WithMessage("Price is required.");
             RuleFor(x => x.Size).NotEmpty().WithMessage("Size is required.");
             RuleFor(x => x.DetailedAddress).NotEmpty().WithMessage("Address is required.");
-            RuleFor(x => x.City).NotEmpty().WithMessage("City is required.");
+            //RuleFor(x => x.City).NotEmpty().WithMessage("City is required.");
         }
     }
 }

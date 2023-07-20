@@ -20,6 +20,8 @@
         letter-spacing: 1px;
     }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
 
 <div class="mb-6">
     <h2 class="mb-0 text-heading fs-22 lh-15">Add new property</h2>
@@ -464,10 +466,7 @@
                                                 </h3>
                                                 <div id="map"
                                                      class="mapbox-gl map-point-animate mb-6"
-                                                     style="height: 296px"
-                                                     data-mapbox-access-token="pk.eyJ1IjoiZzVvbmxpbmUiLCJhIjoiY2xkMDB1b2ZvMDRmMjNxcWpwajV5NTFjeiJ9.OTlSugt4ZFDFny07_l2s7Q"
-                                                     data-mapbox-options='{"center":[-73.981566, 40.739011],"setLngLat":[-73.981566, 40.739011]}'
-                                                     data-mapbox-marker='[{"position":[-73.981566, 40.739011],"className":"marker","backgroundImage":"~/theme/images/googlle-market-01.png","backgroundRepeat":"no-repeat","width":"32px","height":"40px"}]'></div>
+                                                     style="height: 296px"></div>
                                                 <div class="form-row mx-n2">
                                                     <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
                                                         <div class="form-group mb-md-0">
@@ -829,6 +828,7 @@
 </div>
 
 @section Scripts {
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         function updatemark() {
             //debugger;
@@ -842,6 +842,34 @@
                 }
             });
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#DetailedAddress").on("change", function () {
+                var latitude = null;
+                var longitude = null;
+                var address = $("#DetailedAddress").val();
+                var apiUrl = 'https://www.mapquestapi.com/geocoding/v1/address?key=sZmrZp41wPnL9kJCHvAHguqn6dmKKFIm&location=' + address;
+                $.get(apiUrl, function (data) {
+                    var location = data.results[0].locations[0];
+                    latitude = location.latLng.lat;
+                    longitude = location.latLng.lng;
+
+                    $("#LonCoordinate").val(longitude)
+                    $("#LanCoordinate").val(latitude)
+
+                    var map = L.map('map', {
+                        center: [latitude, longitude],
+                        zoom: 13
+                    });
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+                    var marker = L.marker([latitude, longitude]).addTo(map);
+
+                });
+            });
+        });
     </script>
 }
 

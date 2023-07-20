@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using RealStateMVCWebApp.Commands;
 using RealStateMVCWebApp.DTO.Account;
 using RealStateMVCWebApp.DTO.PropertyListing;
@@ -88,7 +89,7 @@ namespace RealStateMVCWebApp.Controllers
                 {
                     IsLocationExact = false,
                     LanCoordinate = dto.LanCoordinate,
-                    LonCoordinate = dto.LanCoordinate,
+                    LonCoordinate = dto.LonCoordinate,
                     Type = "Point"
                 };
                 var address = new Address
@@ -266,7 +267,7 @@ namespace RealStateMVCWebApp.Controllers
                 {
                     IsLocationExact = false,
                     LanCoordinate = dto.LanCoordinate,
-                    LonCoordinate = dto.LanCoordinate,
+                    LonCoordinate = dto.LonCoordinate,
                     Type = "Point"
                 };
                 var address = new Address
@@ -344,7 +345,7 @@ namespace RealStateMVCWebApp.Controllers
             var reponse = await _mediator.Send(new GetPropertyListingByIdQuery() { Id = id });
             if (reponse.Id == id)
             {
-                await _mediator.Send(new DeletePropertyListingCommand() { Id = id});
+                await _mediator.Send(new DeletePropertyListingCommand() { Id = id });
                 return RedirectToAction("Index");
             }
             else
@@ -355,5 +356,30 @@ namespace RealStateMVCWebApp.Controllers
 
 
         }
+
+        public async Task<IActionResult> PropertySearching()
+        {
+            var response = await _mediator.Send(new GetPropertyListingsQuery());
+            var propertyListingDTOs = response.Select(pl => new PropertyListingDTO
+            {
+                Id = pl.Id,
+                Title = pl.Title,
+                Description = pl.Description,
+                Address = pl.Address,
+                PropertyType = pl.PropertyType,
+                Price = pl.Price,
+                Size = pl.Size,
+                BedRooms = pl.BedRooms,
+                BathRooms = pl.BathRooms
+            }).ToList();
+
+            var location = propertyListingDTOs.Select(s => new { s.Address.Location.LonCoordinate, s.Address.Location.LanCoordinate }).ToArray();
+
+            ViewBag.AmenitiesList = new List<string> { "Attic", "Basketball", "court", "Doorman", "Front yard", "Lake view", "Ocean view", "Private space", "Sprinklers", "Wine cellar" };
+            ViewBag.listOfProperties = propertyListingDTOs;
+            ViewBag.listOfLocations = location.ToJson();
+            return View();
+        }
     }
+  
 }
