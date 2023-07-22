@@ -380,6 +380,85 @@ namespace RealStateMVCWebApp.Controllers
             ViewBag.listOfLocations = location.ToJson();
             return View();
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return BadRequest();
+
+            var reponse = await _mediator.Send(new GetPropertyListingByIdQuery() { Id = id });
+            if (reponse.Id == id)
+            {
+                ViewBag.Category = new List<string> { "Premium", "Commercial", "Industrial" };
+                ViewBag.PropertyType = new List<string> { "Single-Family Home", "Bungalow", "Others" };
+                ViewBag.PropertyStatus = new List<string> { "Available", "On Hold", "Sold" };
+                ViewBag.Country = new List<string> { "Bangladesh", "Others" };
+                ViewBag.StructureType = new List<string> { "A", "B", "C" };
+                ViewBag.FloorsNo = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+                ViewBag.EnergyClass = new List<string> { "A++", "A+", "A", "B", "C", "D" };
+                ViewBag.EnergyIndex = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+                ViewBag.AmenitiesList = new List<string> { "Attic", "Basketball", "court", "Doorman", "Front yard", "Lake view", "Ocean view", "Private space", "Sprinklers", "Wine cellar" };
+                var dto = new EditPropertyListingDTO
+                {
+                    AfterPriceLabel = reponse.AfterPriceLabel,
+                    Id = reponse.Id,
+                    Availability = reponse.Availability,
+                    Basement = reponse.Basement,
+                    BathRooms = reponse.BathRooms,
+                    BedRooms = reponse.BedRooms,
+                    BeforePriceLabel = reponse.BeforePriceLabel,
+                    Category = reponse.Category,
+                    City = reponse.Address.City,
+                    Country = reponse.Address.Country,
+                    CustomID = reponse.CustomID,
+                    Description = reponse.Description,
+                    DetailedAddress = reponse.Address.DetailedAddress,
+                    EnergyClass = reponse.EnergyClass,
+                    EnergyIndex = reponse.EnergyIndex,
+                    ExteriorMaterial = reponse.ExteriorMaterial,
+                    ExtraDetails = reponse.ExtraDetails,
+                    FloorsNo = reponse.FloorsNo,
+                    Garages = reponse.Garages,
+                    GarageSize = reponse.GarageSize,
+                    HomeOwnersAssociationFee = reponse.HomeOwnersAssociationFee,
+                    IsLocationExact = reponse.Address.Location.IsLocationExact,
+                    Images = reponse.Images,
+                    LanCoordinate = reponse.Address.Location.LanCoordinate,
+                    LonCoordinate = reponse.Address.Location.LonCoordinate,
+                    LotSize = reponse.LotSize,
+                    Neighborhood = reponse.Address.Neighborhood,
+                    OwnerAgentNots = reponse.OwnerAgentNots,
+                    Price = reponse.Price,
+                    PropertyStatus = reponse.PropertyStatus,
+                    PropertyType = reponse.PropertyType,
+                    Roofing = reponse.Roofing,
+                    Rooms = reponse.Rooms,
+                    Size = reponse.Size,
+                    State = reponse.Address.State,
+                    StructureType = reponse.StructureType,
+                    Tags = reponse.Tags,
+                    Title = reponse.Title,
+                    VideoURLOne = reponse.VideoURLOne,
+                    Type = reponse.Address.Location.Type,
+                    VideoURLTwo = reponse.VideoURLTwo,
+                    YearBuilt = reponse.YearBuilt,
+                    YearlyTaxRate = reponse.YearlyTaxRate,
+                    Zip = reponse.Address.Zip,
+                    Amenities = string.Empty
+                };
+
+                ViewBag.AmenitiesCheckedList = reponse.Amenities.ToList();
+
+                return View(dto);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
+
+        }
     }
   
 }
