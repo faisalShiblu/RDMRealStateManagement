@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "PropertySearching";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-    var data_get = ViewBag.listOfLocations ;
+    var data_get = ViewBag.listOfLocations;
 }
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <br />
@@ -908,27 +908,18 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         $(document).ready(function () {
+            var data = @Html.Raw(ViewBag.listOfLocations);
 
-            var locations = [
-                ["LOCATION_1", 11.8166, 122.0942],
-                ["LOCATION_2", 11.9804, 121.9189],
-                ["LOCATION_3", 10.7202, 122.5621],
-                ["LOCATION_4", 11.3889, 122.6277],
-                ["LOCATION_5", 10.5929, 122.6325]
-            ];
-
-            var map = L.map('map').setView([11.206051, 122.447886], 8);
-            mapLink =
-                '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-            L.tileLayer(
-                'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; ' + mapLink + ' Contributors',
-                maxZoom: 18,
+            var map = L.map('map', {
+                center: [23.6850, 90.3563],
+                zoom: 9
+            });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            for (var i = 0; i < locations.length; i++) {
-                marker = new L.marker([locations[i][1], locations[i][2]])
-                    .bindPopup(locations[i][0])
+            for (var i = 0; i < data.length; i++) {
+                marker = new L.marker(parseFloat(data[i].LanCoordinate), parseFloat(data[i].LonCoordinate))
                     .addTo(map);
             }
 
