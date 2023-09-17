@@ -58,8 +58,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     //pattern: "{controller=Account}/{action=DualSign}/{id?}");
-//pattern: "{controller=PropertyListing}/{action=Index}/{id?}");
-pattern: "{controller=PropertyListing}/{action=PropertySearching}/{id?}");
+pattern: "{controller=PropertyListing}/{action=Index}/{id?}");
+//pattern: "{controller=PropertyListing}/{action=PropertySearching}/{id?}");
 //pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();
